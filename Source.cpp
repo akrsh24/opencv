@@ -7,7 +7,7 @@ using namespace cv;
 
 int main()
 {
-	Mat video,temp,cont,vidhsv,vidinrng,vidmorph,lap;                                      //data type for image(Mat),class
+	Mat video,temp,cont,vidhsv,vidinrng,vidmorph,labels;                                      //data type for image(Mat),class
 	//double index;
 	VideoCapture cap(0);                            // initialising camera.
 	cap.set(1,640);
@@ -15,7 +15,7 @@ int main()
 //cap.set(CV_CAP_PROP_FRAME_WIDTH,640);
 //cap.set(CV_CAP_PROP_FRAME_HEIGHT,480);
 	cap.open(0);
-	vector<vector<Point> > cont_temp,cont_live; 
+	vector<vector<Point> > cont_temp,cont_live,cont; 
     vector<Vec4i> hierarchy_temp,hierarchy_live; 
 	namedWindow("control", CV_WINDOW_NORMAL); 
 	int huelow = 0; 
@@ -53,9 +53,9 @@ int main()
 		//cap>>video;
 		cap.read(video);
 		temp = imread("C:\\c1.jpg",CV_LOAD_IMAGE_COLOR);
-		Laplacian(video,lap,1);
-		imshow("lap",lap);
-		
+		//Laplacian(video,lap,1);
+		//imshow("lap",lap);
+		labels=Mat::zeros(video.size(),CV_8UC1);
 		//Org=temp.clone();
 		//capturing temp.      
 		//cout<<temp.size()<<endl;
@@ -72,7 +72,7 @@ int main()
 		drawContours( temp, cont_temp,-1, Scalar(0,255,255), 4, 8, hierarchy_temp, 3, Point()); 
 		Mat s = Mat::zeros(temp.size(),CV_8UC3);
 		Mat p = Mat::zeros(video.size(),CV_8UC3);
-		drawContours( s, cont_temp,-1, Scalar(0,255,255), 4, 8, hierarchy_temp, 3, Point());
+		drawContours( s, cont_temp,1, Scalar(0,255,255), 4, 8, hierarchy_temp, 3, Point());
 		imshow("cont_temp",s);
 		erode(vidinrng,vidmorph,element);		//blur(thrushold,bl,Size(5,5));
 		dilate(vidmorph,vidmorph,element);//store (a,b,c) a to b
@@ -120,11 +120,11 @@ int main()
 					else if( shape==3 )
 						putText(video,"CIRCLe",Point(x,y),4,8,Scalar(110,101,145),1,2);
 					else if( shape==0 )
-						putText(video,"extra",Point(x,y),4,8,Scalar(110,101,145),1,2);
+						putText(video,"Arrow",Point(x,y),4,8,Scalar(110,101,145),1,2);// 0 for arrow
 					else if( shape==4 )
 						putText(video,"SQUARE",Point(x,y),4,8,Scalar(110,101,145),1,2);
 					else if( shape==1 )
-						putText(video,"TRAINGLE",Point(x,y),4,8,Scalar(110,101,145),1,2);
+						putText(video,"TRAINGLE",Point(x,y),4,8,Scalar(110,101,145),1,2);// 1 triangle
 		}	
 	
 
