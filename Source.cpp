@@ -78,7 +78,7 @@ int main()
 		}
 		imshow("LAbels",labels);
 		/*	!TODO	*/
-
+		drawContours(video,cont_live, -1,Scalar(255,0,0),2,8, hierarchy_live, 2, Point());
 		for(unsigned int k=0;k<cont_live.size();k++)
 		{
 			//shape = 100;
