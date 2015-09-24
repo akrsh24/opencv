@@ -82,6 +82,15 @@ int main()
 		imshow("Filtered Contours",sp);
 		//cout<<"emate = " <<cont_temp[3]<<endl;
 		findContours( vidmorph.clone(), cont_live, hierarchy_live, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE,Point(0, 0) );
+		vector<float> cont_avgs(cont_live.size(), 0.f);
+		for (size_t i = 0; i < cont.size(); ++i)
+		{
+		    cv::drawContours(labels, cont_live, i, cv::Scalar(i), CV_FILLED);
+		    cv::Rect roi = cv::boundingRect(cont[i]);
+		    cv::Scalar mean = cv::mean(image(roi), labels(roi) == i);
+		    cont_avgs[i] = mean[0];
+		}
+		imshow("LAbels",labels);
 		drawContours( p, cont_live,-1, Scalar(0,255,255), 4, 8, hierarchy_live, 3, Point());
 		for(int l = 0 ; l < cont_live.size();++l)
 		{
