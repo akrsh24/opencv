@@ -15,7 +15,7 @@ int main()
 //cap.set(CV_CAP_PROP_FRAME_WIDTH,640);
 //cap.set(CV_CAP_PROP_FRAME_HEIGHT,480);
 	cap.open(0);
-	vector<vector<Point> > cont_temp,cont_live,cont; 
+	vector<vector<Point> > cont_temp,cont_live; 
     vector<Vec4i> hierarchy_temp,hierarchy_live; 
 	namedWindow("control", CV_WINDOW_NORMAL); 
 	int huelow = 0; 
@@ -83,11 +83,11 @@ int main()
 		//cout<<"emate = " <<cont_temp[3]<<endl;
 		findContours( vidmorph.clone(), cont_live, hierarchy_live, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE,Point(0, 0) );
 		vector<float> cont_avgs(cont_live.size(), 0.f);
-		for (size_t i = 0; i < cont.size(); ++i)
+		for (size_t i = 0; i < cont_live.size(); ++i)
 		{
 		    cv::drawContours(labels, cont_live, i, cv::Scalar(i), CV_FILLED);
-		    cv::Rect roi = cv::boundingRect(cont[i]);
-		    cv::Scalar mean = cv::mean(image(roi), labels(roi) == i);
+		    cv::Rect roi = cv::boundingRect(cont_live[i]);
+		    cv::Scalar mean = cv::mean(video(roi), labels(roi) == i);
 		    cont_avgs[i] = mean[0];
 		}
 		imshow("LAbels",labels);
